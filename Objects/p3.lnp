@@ -7,6 +7,7 @@
 ".\objects\adc.o"
 ".\objects\delay.o"
 ".\objects\sys.o"
+".\objects\ano.o"
 ".\objects\startup_stm32f10x_hd.o"
 ".\objects\system_stm32f10x.o"
 --library_type=microlib --strict --scatter ".\Objects\p3.sct"

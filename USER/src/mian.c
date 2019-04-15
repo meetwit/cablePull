@@ -6,6 +6,7 @@
 #include "usart2.h"
 #include "usart3.h"
 #include "stdio.h" 
+#include "ANO.h" 
 
 /*
 陀螺仪配置
@@ -52,6 +53,7 @@ u32 ReadCount(void)
 
 int main(){
 	
+	float xx[2]={0};
 	u32 a,b,c;
 	
 	float ch0_N,ch1_N,ch_N;
@@ -74,7 +76,7 @@ Stm32_Clock_Init(9);	//系统时钟设置
 	delay_init(72);					//延时函数初始化
 	Adc_Init();							//PA1,开启ADC通道一
 	
-	printf("start\r\n");
+//	printf("start\r\n");
 	
 	while(1){
 		
@@ -88,22 +90,27 @@ Stm32_Clock_Init(9);	//系统时钟设置
 			a=Get_Adc_Average(6,50);	//ch0
 			b=Get_Adc_Average(7,50);	//ch1
 		
-//			c=ReadCount();
+			c=ReadCount();
 			
-//			ch_N=c*50*9.8/8388608.0*2.55;
+			ch_N=c*50*9.8/8388608.0*2.55;
 			
+		xx[0] = a;
+		xx[1] = ch_N*50;
+		ANO_send(0xf2,(uint8_t *)xx,sizeof(xx[0]),sizeof(xx));
+		delay_ms(5);
+		
 			//ch0_N=a*30*9.8/4096.0;
 			//ch1_N=b*30*9.8/4096.0;
 			
 			//ch0_V=a*5/4096.0*800;
 			//ch1_V=b*5/4096.0*800;
-			ch0_L=a*0.098;
-			ch1_L=b*0.098;
+//			ch0_L=a*0.098;
+//			ch1_L=b*0.098;
 			
 //			printf("ch0=,%d,,ch1=,%d,\r\n",a,b);
 //			printf("ch0_V=,%f,V,ch1_V=,%fV,\r\n",ch0_V,ch1_V);
 //		printf("ch0_N=,%f,N,ch1_N=,%fN\r\n",ch0_N,ch1_N);
-			printf("%f,%f",ch0_L,ch1_L);
+//			printf("%f,%f",ch0_L,ch1_L);
 //		printf("c=%d,c=%fN,\r\n",c,ch_N);
 //				printf("%f\r\n",ch_N);
 			//	send_flag=0;
